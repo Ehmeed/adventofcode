@@ -2,12 +2,20 @@ package org.ehmeed.adventofcode.year2019
 
 
 private fun main() {
-    val totalFuelRequired = moduleWeights.sumBy { Day1.calculateFull(it) }
-    println(totalFuelRequired)
+    val totalFuelRequired = moduleWeights.sumBy { Day1.calculateFuel(it) }
+    println("Total fuel required: $totalFuelRequired")
+    val totalFuelConsideringFuelWeightRequired = moduleWeights.sumBy { Day1.calculateFuelConsideringFuelWeight(it) }
+    println("Total fuel required considering fuel weight: $totalFuelConsideringFuelWeightRequired")
 }
 
 object Day1 {
-    fun calculateFull(mass: Int): Int = (mass / 3) - 2
+    fun calculateFuel(mass: Int): Int = (mass / 3) - 2
+
+    fun calculateFuelConsideringFuelWeight(mass: Int): Int {
+        val fuelRequiredForMass = calculateFuel(mass)
+        if (fuelRequiredForMass <= 0) return 0
+        return fuelRequiredForMass + calculateFuelConsideringFuelWeight(fuelRequiredForMass)
+    }
 }
 
 private val moduleWeights = listOf(
