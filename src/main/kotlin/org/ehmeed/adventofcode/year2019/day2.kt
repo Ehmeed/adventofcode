@@ -5,6 +5,18 @@ import java.lang.IllegalArgumentException
 private fun main() {
     val finalState = Day2.decode(inputCode)
     println("Final state is: $finalState")
+
+    (100 downTo 0).forEach { verb ->
+        (100 downTo 0).forEach { noun ->
+            val code = inputCode.split(",").toMutableList()
+            code[1] = noun.toString()
+            code[2] = verb.toString()
+            val decoded = Day2.decode(code.joinToString(","))
+            if (decoded.split(",").first() == "19690720") {
+                println("Second part result: ${noun * 100 + verb}")
+            }
+        }
+    }
 }
 
 object Day2 {
@@ -12,7 +24,7 @@ object Day2 {
         val parsedInput = inputCode.split(",").map { it.toInt() }
         var position = 0
         var result = parsedInput
-        while (true) {
+        while (position < result.size) {
             val (updatedState, shouldStop) = execute(result, result.drop(position).take(4))
             if (shouldStop) break
             result = updatedState
